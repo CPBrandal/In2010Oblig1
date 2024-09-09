@@ -1,0 +1,134 @@
+# Oppgave 1a Pseudokode
+
+    Operasjon: push_back
+    Input: int i
+    Output: Oppdatert liste
+
+    push_back(i)
+        Node n <- new Node(i)
+        if forste == null then
+            forste <- n, siste <- n, mid <- n
+            teller <- teller + 1
+            return
+
+        if start == siste then
+            forste.neste <- n, n.forrige <- forste, siste <- n
+            teller <- teller + 1
+
+        else 
+            siste.neste <- n, n.forrige <- siste, siste <- n
+            teller <- teller + 1
+
+    operasjon: push_front
+    Input: int i
+    Output: Oppdatert liste
+
+    push_front(i)
+        Node n <- new Node(i)
+        if forste == null then
+            forste <- n, siste <- n, mid <- n
+            teller <- teller + 1
+            return
+        if forste == siste then
+            n.neste <- forste, forste.forrige <- n, forste <- n
+            teller <- teller + 1
+        else
+            n.neste <- forste, forste.forrige <- n, forste <- n
+            teller <- teller + 1
+
+    Operasjon: push_middel
+    Input: int i
+    Output: Oppdatert liste
+
+    push_middel(i)
+    Node n <- new Node(i)
+    Node peker <- forste;
+    int l <- (teller+1)/2
+    if forste == null then
+        forste <- n, siste <- n, mid <- n
+        teller <- teller + 1
+        return
+    
+    if forste == siste then
+        forste.neste <- n, n.forrige <- forste, mid <- n, siste <- n
+        teller <- teller + 1
+    else
+        for (x < l) do
+            peker <- peker.neste
+        n.neste <- peker
+        n.forrige <- peker.forrige
+        peker.forrige.neste <- n
+        peker.forrige <- n
+        teller <- teller +1
+    
+    Operasjon: get
+    Input: int i
+    Output: Printe ut verdien på plass i, i listen
+
+    get(i)
+    Node nesteNode <- mid
+        int midIndex <- (teller+1)/2
+        if i == 0 then
+            System.out.println(forste.data)
+            return
+        if i == teller then
+            System.out.println(siste.data)
+        if i == midIndex then
+            
+        else if i < midIndex then
+            for (x < midIndex-i) do
+                nesteNode <- nesteNode.forrige
+        else 
+            for (x < i - midIndex) do
+                nesteNode <- nesteNode.neste
+        print nesteNode.data
+
+
+# (c) Oppgi en verste-tilfelle kjøretidsanalyse av samtlige operasjoner med Onotasjon. I analysen fjerner vi begrensningen på N, altså kan N være
+vilkårlig stor.
+
+push_back: O(1)
+push_front: O(1)
+push_middel: O(n/2), her er n størrelsen på listen. Den er delt på to fordi for-loopen går fra 0 til n/2.
+get: O(n/2)
+
+# (d) Hvis vi vet at N er begrenset, hvordan påvirker det kompleksiteten i Onotasjon? Formulert annerledes: Hvorfor er det viktig at vi fjerner begrensningen på N i forrige deloppgave? 
+
+Dersom N er begrenset så må vi regne med alle konstantene, dersom vi har en ubegrenset N så kan vi gjøre om kontantene til 1, og stryke alt untatt det største leddet.
+
+
+# I hvilken grad stemmer kjøretiden overens med kjøretidsanalysene (store
+O) for de ulike algoritmene?
+    Kjøretiden stemmer overens med kjøretidsanalysene, der vi ser at mergeSort kjører saktere enn insertionSort for lav n, men raskere for høy n, fordi den har n*log(n) kjøretid.
+
+# Hvordan er antall sammenligninger og antall bytter korrelert med kjøretiden?
+    Antall bytter er korrelert med kjøretid på den måten at flere bytter fører til lenger kjøretid. Antall sammenligninger er kun korrelert med kjøretid dersom 
+
+# Hvilke sorteringsalgoritmer utmerker seg positivt når n er veldig liten?
+
+    Når n er veldig liten så er insertionSort raskest, mens når n er veldig stor så er mergeSort betydelig raskest. 
+
+# Hvilke sorteringsalgoritmer utmerker seg positivt for de ulike inputfilene?
+alg1 = insertion, alg2 = mergeSort
+
+Nearly_sorted_10000:
+    n, alg1_cmp, alg1_swaps, alg1_time, alg2_cmp, alg2_swaps, alg2_time
+10000,    14520,       4523,      1594,    67100,       3717,      4621
+
+random_10000:
+    n, alg1_cmp, alg1_swaps, alg1_time, alg2_cmp, alg2_swaps, alg2_time
+10000, 24935360,   24925372,     40765,   120488,      61452,      3780
+
+Nearly_sorted_100000:
+     n,   alg1_cmp, alg1_swaps, alg1_time, alg2_cmp, alg2_swaps, alg2_time
+100000,     146088,      46089,      9935,   841422,      38135,     69028
+
+random_100000:
+     n,     alg1_cmp,   alg1_swaps, alg1_time, alg2_cmp, alg2_swaps, alg2_time
+100000,  -1787095735,  -1787195720,   2312443,  1536225,     776047,     80870
+
+Vi ser at dersom inputfilen er nesten sortert så har det en ekstrem stor påvirkning på insertion sort sitt tidsbruk. Vi ser også at insertion er raskere enn merge på nearly_sorted.
+Differansen på random og nearly_sorted for alogritmen insertionsort er 40 765 mikrosekunder til 1594, altsa 39 171 mikrosekunder.
+
+# Har du noen overraskende funn å rapportere?
+    Det mest overraskende funnet jeg har er hvor stor forskjell det er i tidsbruken på insertionsort-algoritmen mellom random og nearly_sorted når n er veldig stor.
